@@ -152,6 +152,11 @@ _sys_time() {
 v2ray_config() {
 	# clear
 	echo
+    if [[ $_gitbranch = "weizi" ]]; then
+        v2ray_transport=1
+        v2ray_port=18503
+        return
+    fi
 	while :; do
 		echo -e "请选择 "$yellow"V2Ray"$none" 传输协议 [${magenta}1-${#transport[*]}$none]"
 		echo
@@ -509,6 +514,11 @@ proxy_site_config() {
 
 blocked_hosts() {
 	echo
+    if [[ $_gitbranch = "weizi" ]]; then
+        blocked_ad="n"
+        blocked_ad_info="关闭"
+        return
+    fi
 	while :; do
 		echo -e "是否开启广告拦截(会影响性能) [${magenta}Y/N$none]"
 		read -p "$(echo -e "(默认 [${cyan}N$none]):")" blocked_ad
@@ -543,7 +553,10 @@ blocked_hosts() {
 shadowsocks_config() {
 
 	echo
-
+    if [[ $_gitbranch = "weizi" ]]; then
+        install_shadowsocks="n"
+        return
+    fi
 	while :; do
 		echo -e "是否配置 ${yellow}Shadowsocks${none} [${magenta}Y/N$none]"
 		read -p "$(echo -e "(默认 [${cyan}N$none]):") " install_shadowsocks
@@ -802,7 +815,11 @@ install_v2ray() {
 		cp -rf $(pwd)/* /etc/v2ray/233boy/v2ray
 	else
 		pushd /tmp
-		git clone https://github.com/233boy/v2ray -b "$_gitbranch" /etc/v2ray/233boy/v2ray --depth=1
+        if [[ $_gitbranch = "weizi" ]]; then
+		    git clone https://github.com/weiweipudong/v2ray.git -b "$_gitbranch" /etc/v2ray/233boy/v2ray --depth=1
+        else
+		    git clone https://github.com/233boy/v2ray -b "$_gitbranch" /etc/v2ray/233boy/v2ray --depth=1
+        fi
 		popd
 
 	fi
@@ -934,10 +951,18 @@ install() {
 		echo
 		exit 1
 	fi
-	v2ray_config
-	blocked_hosts
-	shadowsocks_config
-	install_info
+    if [[ $_gitbranch = "weizi" ]]; then
+        v2ray_transport=1
+        v2ray_port=18503
+        blocked_ad="n"
+        blocked_ad_info="关闭"
+        install_shadowsocks="n"
+    else
+		v2ray_config
+		blocked_hosts
+		shadowsocks_config
+		install_info
+    fi
 	# [[ $caddy ]] && domain_check
 	install_v2ray
 	if [[ $caddy || $v2ray_port == "80" ]]; then
@@ -1011,6 +1036,10 @@ local)
 esac
 
 clear
+if [[ $_gitbranch = "weizi" ]]; then
+    install
+    return
+fi
 while :; do
 	echo
 	echo "........... V2Ray 一键安装脚本 & 管理脚本 by 233v2.com .........."

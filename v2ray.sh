@@ -182,7 +182,7 @@ create_vmess_URL_config() {
 		cat >/etc/v2ray/vmess_qr.json <<-EOF
 			{
 				"v": "2",
-				"ps": "233v2.com_${ip}",
+				"ps": "goo_${ip}",
 				"add": "${ip}",
 				"port": "${v2ray_port}",
 				"id": "${v2ray_id}",
@@ -2315,6 +2315,16 @@ get_v2ray_vmess_URL_link() {
 	echo
 	rm -rf /etc/v2ray/vmess_qr.json
 }
+get_v2ray_vmess_URL_link_only() {
+	create_vmess_URL_config
+	if [[ $v2ray_transport == 33 ]]; then
+		local vmess="$(cat /etc/v2ray/vmess_qr.json)"
+	else
+		local vmess="vmess://$(cat /etc/v2ray/vmess_qr.json | base64 -w 0)"
+	fi
+    echo $vmess
+	rm -rf /etc/v2ray/vmess_qr.json
+}
 other() {
 	while :; do
 		echo
@@ -2788,7 +2798,7 @@ log)
 	view_v2ray_log
 	;;
 url | URL)
-	get_v2ray_vmess_URL_link
+	get_v2ray_vmess_URL_link_only
 	;;
 u | update)
 	update_v2ray

@@ -1012,7 +1012,7 @@ uninstall() {
 
 args=$1
 _gitbranch=$2
-[ -z $1 ] && args="online"
+[ -z $1 ] && args="local"
 case $args in
 online)
 	#hello world
@@ -1020,6 +1020,7 @@ online)
 	;;
 local)
 	local_install=true
+	[[ -z $_gitbranch ]] && _gitbranch="weizi"
 	;;
 *)
 	echo

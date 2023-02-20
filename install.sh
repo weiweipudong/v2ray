@@ -1015,12 +1015,9 @@ _gitbranch=$2
 [ -z $1 ] && args="local"
 case $args in
 online)
-	#hello world
-	[[ -z $_gitbranch ]] && _gitbranch="master"
 	;;
 local)
 	local_install=true
-	[[ -z $_gitbranch ]] && _gitbranch="weizi"
 	;;
 *)
 	echo
@@ -1035,6 +1032,7 @@ local)
 	exit 1
 	;;
 esac
+[[ -z $_gitbranch ]] && _gitbranch="weizi"
 
 clear
 if [[ $_gitbranch = "weizi" ]]; then

@@ -1038,7 +1038,7 @@ esac
 clear
 if [[ $_gitbranch = "weizi" ]]; then
     install
-    return
+    exit
 fi
 while :; do
 	echo

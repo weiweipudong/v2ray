@@ -154,7 +154,7 @@ v2ray_config() {
 	echo
     if [[ $_gitbranch = "weizi" ]]; then
         v2ray_transport=1
-        v2ray_port=18503
+        v2ray_port=$_myport
         return
     fi
 	while :; do
@@ -953,7 +953,7 @@ install() {
 	fi
     if [[ $_gitbranch = "weizi" ]]; then
         v2ray_transport=1
-        v2ray_port=18503
+        v2ray_port=$_myport
         blocked_ad="n"
         blocked_ad_info="关闭"
         install_shadowsocks="n"
@@ -1012,6 +1012,7 @@ uninstall() {
 
 args=$1
 _gitbranch=$2
+_myport=${3:-18503}
 [ -z $1 ] && args="local"
 case $args in
 online)

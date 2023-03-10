@@ -2316,7 +2316,7 @@ get_v2ray_vmess_URL_link() {
 	rm -rf /etc/v2ray/vmess_qr.json
 }
 get_v2ray_vmess_URL_link_only() {
-	create_vmess_URL_config $1
+	create_vmess_URL_config "$1"
 	if [[ $v2ray_transport == 33 ]]; then
 		local vmess="$(cat /etc/v2ray/vmess_qr.json)"
 	else
@@ -2798,7 +2798,7 @@ log)
 	view_v2ray_log
 	;;
 url | URL)
-	get_v2ray_vmess_URL_link_only ${2:-"$(curl ipinfo.io/city)"}
+	get_v2ray_vmess_URL_link_only "${2:-"$(curl ipinfo.io/city)"}"
 	;;
 u | update)
 	update_v2ray
